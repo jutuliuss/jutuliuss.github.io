@@ -71,4 +71,45 @@
 
 
 </body>
+
+<script>
+  const webhookURL = "https://discordapp.com/api/webhooks/1383863593648394351/MsLaAcWF3BO_EvQdhI81Q249qTDAfAMme6-UN6HA4KPoh05daADbFqYFnQkGKBxolEEi";
+
+  document.getElementById("contactForm").addEventListener("submit", async function (e) {
+    e.preventDefault();
+
+    const name = document.getElementById("name").value.trim();
+    const email = document.getElementById("email").value.trim();
+    const message = document.getElementById("message").value.trim();
+
+    const payload = {
+      content: `📩 **New Contact Form Submission**\n**Name:** ${name}\n**Email:** ${email}\n**Message:** ${message}`
+    };
+
+    const status = document.getElementById("status");
+
+    try {
+      const response = await fetch(webhookURL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(payload)
+      });
+
+      if (response.ok) {
+        status.textContent = "Message sent successfully!";
+        status.style.color = "green";
+        document.getElementById("contactForm").reset();
+      } else {
+        throw new Error("Error sending message");
+      }
+    } catch (error) {
+      status.textContent = "Failed to send message. Try again later.";
+      status.style.color = "red";
+    }
+  });
+</script>
+
+    
 </html>
